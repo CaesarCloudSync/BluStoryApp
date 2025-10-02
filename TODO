@@ -1,0 +1,5 @@
+# TODO 
+1. Track user actions [Drawing Path,Sticker Add] in a Stack infastructures using AsyncStorage. Then when pressed undo it will remov last action from either Path or Sticker.
+2. Store Frame Canvas to be then drag and drop and move frames, or edit, or add, remove frame. Which can then be exported to video.
+3. Merge Image to videos react-native-ffmpeg.
+4. Other features.
