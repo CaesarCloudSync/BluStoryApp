@@ -4,11 +4,17 @@ import { AntDesign } from '@expo/vector-icons'; // For the plus icon
 import BottomBar from '@/components/BottomBar';
 
 const RecentCreationsPage = () => {
-  const renderProjectPlaceholder = (name:any) => (
-    <View style={recentCreationsStyles.projectPlaceholder}>
+
+  function ExistingProjects({name}:any) {
+    const navigateToProject = () => {
+        console.log("Navigate to project:", name);
+    };
+    return (
+    <TouchableOpacity onPress={navigateToProject} style={recentCreationsStyles.projectPlaceholder}>
       <Text style={recentCreationsStyles.projectNameText}>{name}</Text>
-    </View>
-  );
+    </TouchableOpacity>
+    )
+  }
 
   return (
     <View style={recentCreationsStyles.container}>
@@ -20,12 +26,12 @@ const RecentCreationsPage = () => {
 
         <Text style={recentCreationsStyles.sectionTitle}>Recent creations</Text>
         <View style={recentCreationsStyles.projectsGrid}>
-          {renderProjectPlaceholder('Project name')}
-          {renderProjectPlaceholder('Project name')}
-          {renderProjectPlaceholder('Project name')}
-          {renderProjectPlaceholder('Project name')}
-          {renderProjectPlaceholder('Project name')}
-          {renderProjectPlaceholder('Project name')}
+            <ExistingProjects name="Project name 1" />
+            <ExistingProjects name="Project name 2" />
+            <ExistingProjects name="Project name 3" />
+            <ExistingProjects name="Project name 4" />
+            <ExistingProjects name="Project name 5" />
+            <ExistingProjects name="Project name 6" />
         </View>
         <TouchableOpacity style={recentCreationsStyles.viewAllButton}>
           <Text style={recentCreationsStyles.viewAllText}>View all</Text>

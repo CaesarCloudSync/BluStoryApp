@@ -26,48 +26,78 @@ export default function TabLayout() {
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
       }}>
-      <Tabs.Screen
-        name="index"
+       <Tabs.Screen
+        name="WelcomePage"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
+          title: 'Welcome Page',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="three"
+        name="RecentCreationsPage"
         options={{
-          title: 'Tab Three',
+          title: 'Recent Creations',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="CreationTypePage"
+        options={{
+          title: 'Creation Type Page',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="StoryboardSelectionPage"
+        options={{
+          title: 'Storyboard Selection',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="CanvasPage"
+        options={{
+          title: 'Canvas Page',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="MovieTitlePage"
+        options={{
+          title: 'Movie Title Page',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
             <Tabs.Screen
-        name="WelcomePage"
+        name="MovieEditorPage"
         options={{
-          title: 'Tab Three',
+          title: 'Movie Editor Page',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
+                  <Tabs.Screen
+        name="MovieSpeedPage"
+        options={{
+          title: 'Movie Speed Page',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+                        <Tabs.Screen
+        name="MovieSelectionPage"
+        options={{
+          title: 'Movie Selection Page',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="MovieCreationResult"
+        options={{
+          title: 'Movie Creation Result',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+
     </Tabs>
   );
 }
