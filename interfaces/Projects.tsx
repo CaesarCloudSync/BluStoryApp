@@ -1,12 +1,12 @@
 export interface Project {
+  projectId: number;
   name: string;
-  thumbnailUrl?: string;
-  email?: string;
-  role?: string; // e.g. "owner", "manager", "developer", "viewer"
-  avatarUrl?: string;
-  joinedAt?: string; // ISO date
+  createdAt: string;
+  thumbnail: string;
+  framesId: string;
 }
 
 export interface ProjectProps {
   project: Project;
 }
+export const project_key = 'project_';

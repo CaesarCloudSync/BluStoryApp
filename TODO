@@ -1,5 +1,7 @@
 # TODO 
-1. Track user actions [Drawing Path,Sticker Add] in a Stack infastructures using AsyncStorage. Then when pressed undo it will remov last action from either Path or Sticker.
-2. Store Frame Canvas to be then drag and drop and move frames, or edit, or add, remove frame. Which can then be exported to video.
-3. Merge Image to videos react-native-ffmpeg.
-4. Other features.
+1. On MovieEditorPage make it so that when clicking addFrame a new frame is created with `frame_{projectId}-{frameId}`.
+2. When getting allframes, get them all and show them on the MovieEditorPages 
+3. Find a way to create a thumbnail for frame.
+4. Once canvas has been createds store it in Async stoarage to be stored as `frame_{projectId}-{frameId}`, then should be accessed from MovieEditorPage.
+5. Can delet Frame and click and edit frames etc.
+6. Differentiate the differnce between a Movie and Storyboard.

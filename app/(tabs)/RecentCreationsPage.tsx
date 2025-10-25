@@ -3,80 +3,63 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { AntDesign } from '@expo/vector-icons'; // For the plus icon
 import BottomBar from '@/components/BottomBar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Project,ProjectProps } from '@/interfaces/Projects';
+import { Project,ProjectProps,project_key } from '@/interfaces/Projects';
+import { multiget } from '@/utils/MultiGetData';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
+import { useNavigation } from 'expo-router';
 const RecentCreationsPage = () => {
   const [existingProjects, setExistingProjects] = React.useState<Project[]>([]);
+  const navigation = useNavigation();
   const getExistingProjects = async () => {
     // Placeholder function to fetch existing projects
     //const projects = await AsyncStorage.getItem('projects');
-    const projects = JSON.stringify([
-  {
-    "name": "Project 1",
-    "thumbnailUrl": "https://example.com/thumbnails/project1.png",
-    "email": "alice.johnson@example.com",
-    "role": "owner",
-    "avatarUrl": "https://example.com/avatars/alice.png",
-    "joinedAt": "2023-09-15T10:30:00Z"
-  },
-  {
-    "name": "Project 2",
-    "thumbnailUrl": "https://example.com/thumbnails/project2.png",
-    "email": "bob.smith@example.com",
-    "role": "developer",
-    "avatarUrl": "https://example.com/avatars/bob.png",
-    "joinedAt": "2024-01-22T14:45:00Z"
-  },
-  {
-    "name": "Project 3",
-    "thumbnailUrl": "https://example.com/thumbnails/project3.png",
-    "email": "carla.nguyen@example.com",
-    "role": "manager",
-    "avatarUrl": "https://example.com/avatars/carla.png",
-    "joinedAt": "2024-03-10T09:00:00Z"
-  },
-  {
-    "name": "Project 4",
-    "thumbnailUrl": "https://example.com/thumbnails/project4.png",
-    "email": "daniel.rivera@example.com",
-    "role": "viewer",
-    "avatarUrl": "https://example.com/avatars/daniel.png",
-    "joinedAt": "2024-06-25T16:20:00Z"
-  },
-  {
-    "name": "Project 5",
-    "thumbnailUrl": "https://example.com/thumbnails/project5.png",
-    "email": "emily.tan@example.com",
-    "role": "developer",
-    "avatarUrl": "https://example.com/avatars/emily.png",
-    "joinedAt": "2024-09-03T12:10:00Z"
-  },
-  {
-    "name": "Project 6",
-    "thumbnailUrl": "https://example.com/thumbnails/project6.png",
-    "email": "frank.williams@example.com",
-    "role": "manager",
-    "avatarUrl": "https://example.com/avatars/frank.png",
-    "joinedAt": "2024-12-12T08:45:00Z"
-  }
-])
 
-    if (projects) {
-      const parsedProjects = JSON.parse(projects);
-      setExistingProjects(parsedProjects);
-      return parsedProjects;
+    const projects:Project[] = await multiget(project_key);
+    console.log("Fetched projects:", projects);
+    if (projects.length > 0) {
+      setExistingProjects(projects);
+      return projects;
     }
     else{
-    setExistingProjects([]);
-  }
-    return [];
+      setExistingProjects([]);
+    }
+    
   };
-  useEffect(() => {
-    getExistingProjects();
-  }, []);
+  const removeAllProjects = async () => {
+    let keys = await AsyncStorage.getAllKeys();
+    let projectKeys = keys.filter(key => key.startsWith(project_key));
+    await AsyncStorage.multiRemove(projectKeys);
+    setExistingProjects([]);
+    console.log("All projects removed");
+  }
+
+    useFocusEffect(
+    useCallback(() => {
+      console.log('Screen is focused');
+
+      // Example: fetch data or start animation
+      getExistingProjects();
+
+      // Cleanup when screen loses focus
+      return () => {
+        console.log('Screen is unfocused');
+      };
+    }, [])
+  );
+  const createproject = async () => {
+    console.log("Create new project");
+    let _id = Date.now()
+    let project:Project = {"projectId":_id,"name":`New Project ${_id}`,"createdAt":new Date().toISOString(),"thumbnail":"","framesId":""}
+    await AsyncStorage.setItem(`project_${_id}`, JSON.stringify(project));
+    await AsyncStorage.setItem('current_project', JSON.stringify( { projectId: project.projectId }));
+    navigation.navigate('CreationTypePage');
+  }
 
   function ExistingProjects({project}:ProjectProps) {
-    const navigateToProject = () => {
-        console.log("Navigate to project:", name);
+    const navigateToProject = async () => {
+        await AsyncStorage.setItem('current_project', JSON.stringify( { projectId: project.projectId }));
+        navigation.navigate('MovieEditorPage', { projectId: project.projectId});
     };
     return (
     <TouchableOpacity onPress={navigateToProject} style={recentCreationsStyles.projectPlaceholder}>
@@ -107,7 +90,7 @@ const RecentCreationsPage = () => {
         </TouchableOpacity>
 
         <Text style={recentCreationsStyles.sectionTitle}>Start a new creation</Text>
-        <TouchableOpacity style={recentCreationsStyles.createButton}>
+        <TouchableOpacity onPress={() =>{createproject()}} style={recentCreationsStyles.createButton}>
           <AntDesign name="plus" size={40} color="black" />
         </TouchableOpacity>
       </ScrollView>

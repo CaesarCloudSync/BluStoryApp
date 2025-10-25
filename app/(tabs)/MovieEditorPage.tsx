@@ -2,7 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Feather, AntDesign, MaterialCommunityIcons, MaterialIcons, Entypo, Ionicons } from '@expo/vector-icons';
 import BottomBar from '@/components/BottomBar';
+import { useNavigation } from 'expo-router';
 const MovieEditorPage = () => {
+  const navigation = useNavigation();
   const renderFrameThumbnail = (isCurrent = false) => (
     <TouchableOpacity
       style={[
@@ -20,6 +22,10 @@ const MovieEditorPage = () => {
       )}
     </TouchableOpacity>
   );
+  const createandNavigateToCanvasPage = () => {
+    navigation.navigate('CanvasPage');
+  }
+
 
   return (
     <View style={movieEditorStyles.container}>
@@ -29,7 +35,7 @@ const MovieEditorPage = () => {
             <Feather name="edit" size={24} color="black" />
             <Text style={movieEditorStyles.topToolbarButtonText}>Edit</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={movieEditorStyles.topToolbarButton}>
+          <TouchableOpacity onPress={() =>{createandNavigateToCanvasPage()}} style={movieEditorStyles.topToolbarButton}>
             <AntDesign name="plus-circle" size={24} color="black" />
             <Text style={movieEditorStyles.topToolbarButtonText}>Add frame</Text>
           </TouchableOpacity>
