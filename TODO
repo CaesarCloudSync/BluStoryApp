@@ -1,7 +1,5 @@
 # TODO 
-1. On MovieEditorPage make it so that when clicking addFrame a new frame is created with `frame_{projectId}-{frameId}`.
-2. When getting allframes, get them all and show them on the MovieEditorPages 
-3. Find a way to create a thumbnail for frame.
-4. Once canvas has been createds store it in Async stoarage to be stored as `frame_{projectId}-{frameId}`, then should be accessed from MovieEditorPage.
-5. Can delet Frame and click and edit frames etc.
-6. Differentiate the differnce between a Movie and Storyboard.
+
+1. Can delet Frame and click and edit frames etc.
+2. Differentiate the differnce between a Movie and Storyboard.
+3. On Canvas for preloaded images allow undo,erase and clear, for stickers, images and drawings.
