@@ -39,6 +39,7 @@ export default function DrawingCanvas({
   captureRef,
   isPainting,
 }: Props) {
+  
   const backgroundimg = useImage(backgroundUri);
   const currentPath = useRef<string | null>(null);
 

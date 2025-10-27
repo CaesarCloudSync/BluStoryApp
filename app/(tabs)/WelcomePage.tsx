@@ -1,6 +1,7 @@
+import clearAll from '@/utils/ClearAll';
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-
+import { View, Text, Image, StyleSheet,TouchableOpacity } from 'react-native';
+import { Alert } from 'react-native';
 const WelcomePage = () => {
   return (
     <View style={welcomeStyles.container}>
@@ -9,8 +10,12 @@ const WelcomePage = () => {
         style={welcomeStyles.logo}
         resizeMode="contain"
       />
+
       <View style={welcomeStyles.textContainer}>
         <Text style={welcomeStyles.bluClubText}>BLU Club</Text>
+              <TouchableOpacity onPress={() => {clearAll();Alert.alert('All data cleared!')}} >
+                <Text>Clear All Data</Text>
+            </TouchableOpacity>
         <Text style={welcomeStyles.sloganText}>We Play, Learn</Text>
         <Text style={welcomeStyles.sloganText}>and Communicate</Text>
       </View>

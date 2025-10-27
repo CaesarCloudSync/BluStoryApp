@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, StyleSheet, Button, Dimensions, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-
+import { z } from 'zod';
 import DrawingCanvas from '@/components/DrawingCanvas';
 import Controls from '@/components/Controls';
 import * as ViewShot from 'react-native-view-shot';
@@ -12,6 +12,10 @@ import { getData, removeData } from '@/components/ManageStorage';
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import { getRandomId } from '@/components/utils';
+import { persistFrame } from '@/utils/PersistFrame';
+import { useNavigation } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CurrentFrameScheme, FrameScheme } from '@/interfaces/Frames';
 export interface PathItem {
   path: string;
   color: string;
@@ -22,7 +26,8 @@ export interface PathItem {
 
 const { width, height } = Dimensions.get('window');
 
-export default function App() {
+export default function CanvasPage() {
+  const navigation = useNavigation();
   const [backgroundImage, setImage] = useState<string | null>(null);
   const [brushColor, setBrushColor] = useState<string>('red');
   const [brushWidth, setBrushWidth] = useState<number>(5);
@@ -110,13 +115,37 @@ export default function App() {
         const stored = await getData("current-stickers");
         console.log("Loaded data:", stored);
         if (stored){
-          setStickers([...stickers, ...JSON.parse(stored) ]);
+          setStickers([...stickers, ...stored ]);
         }
         
       };
       loadData();
     }, [])
   );
+
+  const addFrame = async () => {
+    // Logic to add a new frame
+      const uri = await ViewShot.captureRef(captureRef, {
+        format: 'png',
+        quality: 1,
+      });
+      const newUri = await persistFrame(uri);
+      console.log("Captured frame URI:", newUri);
+      const current_frame_data = await getData('current_frame');
+      console.log("Current frame data fetched:", current_frame_data.frameId);
+      const current_frame = CurrentFrameScheme.parse(current_frame_data);
+      console.log("Current frame data:", current_frame);
+      
+      const frame_data: z.infer<typeof FrameScheme> = {"frameId":current_frame.frameId,"projectId":current_frame.projectId,"canvasUri":newUri,"thumbnailUri":""}
+           
+      await AsyncStorage.setItem(`frame_${current_frame.projectId}_${current_frame.frameId}`, JSON.stringify(frame_data));
+      console.log("Frame data saved:", frame_data);
+      navigation.navigate('MovieEditorPage');
+
+
+    //navigation.navigate('MovieEditorPage');
+    // You can implement navigation to a new frame creation page here
+  }
 
   return (
     <View style={styles.container}>
@@ -143,6 +172,7 @@ export default function App() {
           setStickerPickerVisible={setStickerPickerVisible}
           stickerPickerVisible={stickerPickerVisible}
           addSticker={addSticker}
+          addFrame={addFrame}
           onSave={saveImage}
           isPainting={isPainting}
           setIsPainting={setIsPainting}

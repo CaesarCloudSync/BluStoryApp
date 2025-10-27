@@ -9,4 +9,7 @@ export interface Project {
 export interface ProjectProps {
   project: Project;
 }
+export interface CurrentProject {
+  projectId: number;
+}
 export const project_key = 'project_';

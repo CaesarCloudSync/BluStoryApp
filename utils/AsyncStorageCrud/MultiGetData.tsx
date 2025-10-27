@@ -7,7 +7,7 @@ export const multiget = async (keyname:string) =>{
         return [];
     }
     else{
-    const parsedProjects = projects.map(([key, value]) => value ? JSON.parse(value) as Project : null).filter(project => project !== null) as Project[];
+    const parsedProjects = projects.map(([key, value]) => value ? JSON.parse(value) : null).filter(project => project !== null);
     return parsedProjects;
 }
 }

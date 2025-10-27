@@ -14,7 +14,7 @@ export  const getData = async (key:string) => {
   try {
     const value = await AsyncStorage.getItem(key);
     if (value !== null) {
-      return value;
+      return JSON.parse(value);
     }
     else{
         return null;
@@ -43,7 +43,7 @@ export const checkExists = async (key:string) => {
 export const addToArrayData = async (key:string,newItem:any) => {
     try {
         const existingData = await getData(key);
-        let dataArray = existingData ? JSON.parse(existingData) : [];
+        let dataArray = existingData ? existingData : [];
         dataArray.push(newItem);
         await storeData(key, JSON.stringify(dataArray));
     }

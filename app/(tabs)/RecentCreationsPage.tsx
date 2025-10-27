@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons'; // For the plus icon
 import BottomBar from '@/components/BottomBar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Project,ProjectProps,project_key } from '@/interfaces/Projects';
-import { multiget } from '@/utils/MultiGetData';
+import { multiget } from '@/utils/AsyncStorageCrud/MultiGetData';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useNavigation } from 'expo-router';
