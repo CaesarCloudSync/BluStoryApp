@@ -24,11 +24,16 @@ return (
 >
     {currentFrame?.frameId === frame?.frameId ? (
     <Image
-        //source={require('../../assets/lblu-club-logo.png')} // Replace with an actual image
+        source={{uri:frame?.canvasUri}} // Replace with an actual image
         style={movieEditorStyles.thumbnailImage}
     />
     ) : (
-    <View style={movieEditorStyles.emptyThumbnail} />
+    <Image
+        source={{uri:frame?.canvasUri}} // Replace with an actual image
+        style={movieEditorStyles.thumbnailImage} // [/*<View style={movieEditorStyles.emptyThumbnail} /> */]
+    />
+
+    
     )}
 </TouchableOpacity>
 )

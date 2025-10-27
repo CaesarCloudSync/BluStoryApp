@@ -160,6 +160,7 @@ export default function CanvasPage() {
           captureRef={captureRef}
           isPainting={isPainting}
           setIsPainting={setIsPainting}
+          clearCanvas={clearCanvas}
         />
       
       

@@ -3,6 +3,17 @@ import { StyleSheet, Dimensions, PanResponder, View } from "react-native";
 import { Canvas, Path, useImage, Image as SkiaImage } from "@shopify/react-native-skia";
 import { GestureHandlerRootView, Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { useSharedValue, useAnimatedStyle } from "react-native-reanimated";
+import { Skia } from "@shopify/react-native-skia";
+import {  useState } from "react";
+import { Platform } from "react-native";
+import * as FileSystem from "expo-file-system"; // if you're using Expo
+import { useFocusEffect } from "expo-router";
+import { useCallback } from "react";
+import { CurrentFrameScheme, FrameScheme } from "@/interfaces/Frames";
+import { getData } from "./ManageStorage";
+import { loadLocalFrame } from "@/utils/SkiaUtils/LoadFrame";
+import type { SkImage } from "@shopify/react-native-skia";
+
 
 const { width, height } = Dimensions.get("window");
 
@@ -27,6 +38,7 @@ interface Props {
   captureRef: React.RefObject<View>;
   isPainting: boolean;
   setIsPainting: (painting: boolean) => void;
+  clearCanvas: () => void;
 }
 
 export default function DrawingCanvas({
@@ -38,8 +50,9 @@ export default function DrawingCanvas({
   stickers,
   captureRef,
   isPainting,
+  clearCanvas
 }: Props) {
-  
+  const [bgImage, setBgImage] = useState<SkImage | null>(null);
   const backgroundimg = useImage(backgroundUri);
   const currentPath = useRef<string | null>(null);
 
@@ -78,6 +91,32 @@ export default function DrawingCanvas({
       }
     },
   });
+  const get_current_frame = async () => {
+    clearCanvas();
+    console.log('Fetching current frame data...');
+    // Your logic to get the current frame
+    const current_frame_unparsed = await getData('current_frame');
+    const current_frame_metadata = CurrentFrameScheme.parse(current_frame_unparsed);
+    const current_frame_data = await getData(`frame_${current_frame_metadata.projectId}_${current_frame_metadata.frameId}`);
+    const current_frame = FrameScheme.parse(current_frame_data); // Validate frame data
+    console.log('Current frame data:', current_frame);
+    await loadLocalFrame(current_frame.canvasUri,setBgImage);
+
+
+  }
+  useFocusEffect(
+  useCallback(() => {
+    console.log('Screen is focused');
+
+    // Example: fetch data or start animation
+    get_current_frame();
+
+    // Cleanup when screen loses focus
+    return () => {
+      console.log('Screen is unfocused');
+    };
+  }, [])
+);
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -85,6 +124,17 @@ export default function DrawingCanvas({
         <View ref={canvasRef} style={styles.canvasContainer} {...panResponder.panHandlers}>
           {/* Skia Canvas */}
           <Canvas style={styles.canvas}>
+              {bgImage && (
+              <SkiaImage
+                    image={bgImage}
+                    x={0} // Center horizontally
+                    y={0} // Center vertically
+                    width={width}
+                    height={height}
+                    fit="cover"
+                  />
+            )}
+
 
             {paths.map((p, idx) => (
               <Path key={idx} path={p.path} color={p.color} style="stroke" strokeWidth={p.width} />

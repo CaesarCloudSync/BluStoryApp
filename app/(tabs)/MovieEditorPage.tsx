@@ -38,8 +38,10 @@ const MovieEditorPage = () => {
   const getallframes = async () => {
     const frames = await multiget(frame_key);
     const current_frame_data = await getData('current_frame');
+    if (current_frame_data){
     const current_frame = CurrentFrameScheme.parse(current_frame_data);
     setCurrentFrame(current_frame);
+  }
     setFrames(frames);
     //console.log("All frames:", frames);
   }
