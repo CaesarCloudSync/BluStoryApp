@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import BottomBar from '@/components/BottomBar';
-
+import { useHeaderHeight } from '@react-navigation/elements';
 const MovieSpeedPage = () => {
   const [framesPerSecond, setFramesPerSecond] = useState(4);
+  const headerHeight = useHeaderHeight();
 
   return (
-    <View style={movieSpeedStyles.container}>
+    <View style={ [movieSpeedStyles.container,{ paddingTop: headerHeight }]}>
       <View style={movieSpeedStyles.card}>
         <TouchableOpacity style={movieSpeedStyles.backButton}>
           <Ionicons name="arrow-back" size={28} color="black" />

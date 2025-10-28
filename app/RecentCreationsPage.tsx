@@ -8,9 +8,11 @@ import { multiget } from '@/utils/AsyncStorageCrud/MultiGetData';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useNavigation } from 'expo-router';
+import { useHeaderHeight } from '@react-navigation/elements';
 const RecentCreationsPage = () => {
   const [existingProjects, setExistingProjects] = React.useState<Project[]>([]);
   const navigation = useNavigation();
+  const headerHeight = useHeaderHeight();
   const getExistingProjects = async () => {
     // Placeholder function to fetch existing projects
     //const projects = await AsyncStorage.getItem('projects');
@@ -69,7 +71,7 @@ const RecentCreationsPage = () => {
   }
 
   return (
-    <View style={recentCreationsStyles.container}>
+    <View style={[recentCreationsStyles.container, { paddingTop: headerHeight }]}>
       <ScrollView contentContainerStyle={recentCreationsStyles.scrollContent}>
         <Text style={recentCreationsStyles.headerText}>
           Start creating,

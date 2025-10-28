@@ -51,8 +51,17 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="CameraVideoView" options={{ headerShown: true ,title: ""}} />
+        <Stack.Screen name="index"  options={{ headerShown: false ,title:""}} />
+        <Stack.Screen name="RecentCreationsPage" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
+        <Stack.Screen name="CreationTypePage" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
+        <Stack.Screen name="MovieEditorPage" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
+          <Stack.Screen name="CanvasPage" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
+          <Stack.Screen name="MovieSelectionPage" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
+          <Stack.Screen name="MovieSpeedPage" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
+          <Stack.Screen name="StoryboardSelectionPage" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
+  
+
+        <Stack.Screen name="CameraVideoView" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>

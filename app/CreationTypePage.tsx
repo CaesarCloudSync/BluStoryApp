@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import BottomBar from '@/components/BottomBar';
+import { useNavigation } from 'expo-router';
 const CreationTypePage = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={creationTypeStyles.container}>
       <View style={creationTypeStyles.card}>
@@ -11,7 +14,7 @@ const CreationTypePage = () => {
 
         <Text style={creationTypeStyles.orText}>OR</Text>
 
-        <TouchableOpacity style={creationTypeStyles.optionButton}>
+        <TouchableOpacity onPress={() =>{navigation.navigate("MovieEditorPage")}} style={creationTypeStyles.optionButton}>
           <Text style={creationTypeStyles.optionText}>Movie</Text>
         </TouchableOpacity>
       </View>

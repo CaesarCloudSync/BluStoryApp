@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Feather, AntDesign, MaterialCommunityIcons, MaterialIcons, Entypo, Ionicons } from '@expo/vector-icons';
 import BottomBar from '@/components/BottomBar';
@@ -13,10 +13,13 @@ import { getData } from '@/components/ManageStorage';
 import { movieEditorStyles } from '@/styles/MovieEditorPage';
 import { z } from 'zod';
 import { FrameThumbnail } from '@/components/MovieEditorPage/FrameThumbnail';
+import { useHeaderHeight } from '@react-navigation/elements';
 const MovieEditorPage = () => {
   const navigation = useNavigation();
   const [frames, setFrames] = React.useState<Frame[]>([]);
   const [currentFrame, setCurrentFrame] = React.useState<CurrentFrame | null>(null);
+  const headerHeight = useHeaderHeight();
+
 
   
   const createandNavigateToCanvasPage = async () => {
@@ -61,7 +64,7 @@ const MovieEditorPage = () => {
 
 
   return (
-    <View style={movieEditorStyles.container}>
+    <View style={ [movieEditorStyles.container, { paddingTop: headerHeight }]}>
       <View style={movieEditorStyles.card}>
         <View style={movieEditorStyles.topToolbar}>
           <TouchableOpacity style={movieEditorStyles.topToolbarButton}>

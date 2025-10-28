@@ -1,8 +1,11 @@
 import clearAll from '@/utils/ClearAll';
+import { useNavigation, useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, Image, StyleSheet,TouchableOpacity } from 'react-native';
 import { Alert } from 'react-native';
 const WelcomePage = () => {
+  const router = useRouter();
+  
   return (
     <View style={welcomeStyles.container}>
       <Image
@@ -15,6 +18,9 @@ const WelcomePage = () => {
         <Text style={welcomeStyles.bluClubText}>BLU Club</Text>
               <TouchableOpacity onPress={() => {clearAll();Alert.alert('All data cleared!')}} >
                 <Text>Clear All Data</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {router.push("/RecentCreationsPage")}} >
+                <Text>Go to Tutorial Page</Text>
             </TouchableOpacity>
         <Text style={welcomeStyles.sloganText}>We Play, Learn</Text>
         <Text style={welcomeStyles.sloganText}>and Communicate</Text>
