@@ -1,3 +1,4 @@
+import { z } from 'zod';
 export interface Project {
   projectId: number;
   name: string;
@@ -12,4 +13,7 @@ export interface ProjectProps {
 export interface CurrentProject {
   projectId: number;
 }
+export const CurrentProjectScheme = z.object({
+    projectId: z.number(),
+});
 export const project_key = 'project_';

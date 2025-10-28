@@ -4,7 +4,7 @@ import { Feather, AntDesign, MaterialCommunityIcons, MaterialIcons, Entypo, Ioni
 import BottomBar from '@/components/BottomBar';
 import { useNavigation } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CurrentProject } from '@/interfaces/Projects';
+import { CurrentProject, CurrentProjectScheme } from '@/interfaces/Projects';
 import { CurrentFrame, CurrentFrameScheme, Frame, frame_key } from '@/interfaces/Frames';
 import { multiget } from '@/utils/AsyncStorageCrud/MultiGetData';
 import { useFocusEffect } from '@react-navigation/native';
@@ -14,6 +14,7 @@ import { movieEditorStyles } from '@/styles/MovieEditorPage';
 import { z } from 'zod';
 import { FrameThumbnail } from '@/components/MovieEditorPage/FrameThumbnail';
 import { useHeaderHeight } from '@react-navigation/elements';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 const MovieEditorPage = () => {
   const navigation = useNavigation();
   const [frames, setFrames] = React.useState<Frame[]>([]);
@@ -39,7 +40,11 @@ const MovieEditorPage = () => {
 
   }
   const getallframes = async () => {
-    const frames = await multiget(frame_key);
+    const current_project_data = await getData('current_project');
+    const current_project = CurrentProjectScheme.parse(current_project_data);
+    console.log(`${frame_key}_${current_project.projectId}_`)
+    const frames = await multiget( `${frame_key}${current_project.projectId}_`);
+    console.log("Fetched frames:", frames);
     const current_frame_data = await getData('current_frame');
     if (current_frame_data){
     const current_frame = CurrentFrameScheme.parse(current_frame_data);
@@ -108,7 +113,7 @@ const MovieEditorPage = () => {
             //source={require('../../assets/lblu-club-logo.png')} // Replace with an actual image
             style={movieEditorStyles.mainDisplayImage}
           />
-          <TouchableOpacity style={movieEditorStyles.tapToTakePhotoButton}>
+          <TouchableOpacity onPress={() =>{navigation.navigate("CameraVideoView")}} style={movieEditorStyles.tapToTakePhotoButton}>
             <Text style={movieEditorStyles.tapToTakePhotoText}>Tap here to take photo</Text>
           </TouchableOpacity>
         </View>

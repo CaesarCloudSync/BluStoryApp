@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { CameraView, useCameraPermissions, CameraType } from 'expo-camera';
 import { addToArrayData, storeData } from './ManageStorage';
 import { router } from 'expo-router';
+import { useNavigation } from 'expo-router';
 import { getRandomId } from './utils';
 interface CameraComponentProps {
   cameraMode: 'photo' | 'video';
@@ -13,6 +14,7 @@ export default function CameraComponent({ cameraMode, setCameraMode }: CameraCom
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
   const cameraRef = useRef<any>(null);
   const [facing, setFacing] = useState<CameraType>('back');
+  const navigation = useNavigation();
 
   // Check if permissions are loading
   if (!cameraPermission) {
@@ -37,8 +39,9 @@ export default function CameraComponent({ cameraMode, setCameraMode }: CameraCom
     if (cameraRef.current) {
       try {
         const photo = await cameraRef.current.takePictureAsync({ quality: 0.5 });
+        console.log('Picture taken:', photo.uri);
         await addToArrayData("current-stickers",{"uri":photo.uri,"id":getRandomId()});
-        router.back();
+        navigation.navigate("CanvasPage");
       } catch (error) {
         console.error('Error taking picture:', error);
         Alert.alert('Error', 'Failed to take picture. Please try again.');
