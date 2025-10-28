@@ -44,8 +44,8 @@ export const movieEditorStyles = StyleSheet.create({
   },
   movieTitleThumbnail: {
     backgroundColor: '#F0F0F0',
-    width: 80,
-    height: 60,
+    width: 65,
+    height: 65,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#CCC',
@@ -60,8 +60,8 @@ export const movieEditorStyles = StyleSheet.create({
     color: '#555',
   },
   thumbnail: {
-    width: 80,
-    height: 60,
+    width: 75,
+    height: 55,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#CCC',

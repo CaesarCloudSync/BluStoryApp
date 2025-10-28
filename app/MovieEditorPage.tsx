@@ -14,7 +14,9 @@ import { movieEditorStyles } from '@/styles/MovieEditorPage';
 import { z } from 'zod';
 import { FrameThumbnail } from '@/components/MovieEditorPage/FrameThumbnail';
 import { useHeaderHeight } from '@react-navigation/elements';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { useState } from 'react';
+import FrameCarousel from '@/components/MovieEditorPage/FrameCarousel';
+
 const MovieEditorPage = () => {
   const navigation = useNavigation();
   const [frames, setFrames] = React.useState<Frame[]>([]);
@@ -92,20 +94,7 @@ const MovieEditorPage = () => {
               Add your movie title here Directed by (add name here)
             </Text>
           </View>
-          {frames.length !== 0 &&  
-          frames.map((frame,index) =>(
-            <FrameThumbnail key={index} frame={frame} currentFrame={currentFrame} />))
-          }
-            
-            
-         
-
-  
-
-
-          <TouchableOpacity style={movieEditorStyles.timelineNavButton}>
-            <Ionicons name="play-skip-forward" size={24} color="black" />
-          </TouchableOpacity>
+          <FrameCarousel frames={frames} currentFrame={currentFrame} />
         </View>
 
         <View style={movieEditorStyles.mainDisplay}>
