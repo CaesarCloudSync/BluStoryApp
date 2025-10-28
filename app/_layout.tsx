@@ -59,6 +59,7 @@ function RootLayoutNav() {
           <Stack.Screen name="MovieSelectionPage" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
           <Stack.Screen name="MovieSpeedPage" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
           <Stack.Screen name="StoryboardSelectionPage" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
+          <Stack.Screen name="MovieCreationResult" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />
   
 
         <Stack.Screen name="CameraVideoView" options={{ headerShown: true ,title: "",headerTransparent: true,headerTintColor: 'black'}} />

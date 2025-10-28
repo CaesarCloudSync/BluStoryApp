@@ -16,7 +16,7 @@ import { FrameThumbnail } from '@/components/MovieEditorPage/FrameThumbnail';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useState } from 'react';
 import FrameCarousel from '@/components/MovieEditorPage/FrameCarousel';
-
+import axios from 'axios';
 const MovieEditorPage = () => {
   const navigation = useNavigation();
   const [frames, setFrames] = React.useState<Frame[]>([]);
@@ -24,6 +24,45 @@ const MovieEditorPage = () => {
   const headerHeight = useHeaderHeight();
 
 
+const uploadFrames = async (all_frames: Frame[]) => {
+  const formData = new FormData();
+
+  all_frames.forEach((frame) => {
+    formData.append('files', {
+      uri: frame.canvasUri,
+      type: 'image/png',
+      name: `frame_${frame.frameId}.png`,
+    } as any);
+  });
+
+  try {
+    const response = await axios.post(
+      'https://blustoryappframeconvert-662756251108.us-central1.run.app/convert-to-video/',
+      formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }
+    );
+    let result = response.data // Create Scheme/Interface {"fps": 1, "message": "Video created and uploaded successfully", "resolution": "1080x2139", "seconds_per_image": 5, "total_frames": 40, "video_url": "https://storage.googleapis.com/blustoryapp/videos/output_video.webm"}
+    if (result.video_url){
+      let video_url:string = result.video_url;
+      await AsyncStorage.setItem('current_video_url', JSON.stringify({"video_url":video_url}));
+      navigation.navigate("MovieCreationResult");
+    }
+    console.log('Upload result:', );
+  } catch (error) {
+    console.error('Upload error:', error);
+  }
+};
+
+  const convertImageToVideo = async () => {
+    const current_project_data = await getData('current_project');
+    const current_project = CurrentProjectScheme.parse(current_project_data);
+    const all_frames = await multiget(`${frame_key}${current_project.projectId}_`);
+    console.log("Converting frames to video:", all_frames[0]);
+    uploadFrames(all_frames)
+    
+  }
   
   const createandNavigateToCanvasPage = async () => {
     const current_project = await AsyncStorage.getItem('current_project');
@@ -129,7 +168,7 @@ const MovieEditorPage = () => {
           <TouchableOpacity style={movieEditorStyles.editorToolbarButton}>
             <Entypo name="controller-play" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={movieEditorStyles.editorToolbarButton}>
+          <TouchableOpacity onPress={() =>{convertImageToVideo()}} style={movieEditorStyles.editorToolbarButton}>
             <Feather name="save" size={24} color="black" />
           </TouchableOpacity>
         </View>
