@@ -3,8 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import BottomBar from '@/components/BottomBar';
 import { useHeaderHeight } from '@react-navigation/elements';
+import Slider from '@react-native-community/slider';
+
 const MovieSpeedPage = () => {
-  const [framesPerSecond, setFramesPerSecond] = useState(4);
+  const [framesPerSecond, setFramesPerSecond] = useState(5);
   const headerHeight = useHeaderHeight();
 
   return (
@@ -20,18 +22,17 @@ const MovieSpeedPage = () => {
           <Text style={movieSpeedStyles.descriptionText}>
             Choose how many frames per second
           </Text>
-            {/* 
-          <Slider
-            style={movieSpeedStyles.slider}
-            minimumValue={1}
-            maximumValue={10}
-            step={1}
-            value={framesPerSecond}
-            onValueChange={setFramesPerSecond}
-            minimumTrackTintColor="#F7D64B" // Yellow track
-            maximumTrackTintColor="#D3D3D3"
-            thumbTintColor="#003366" // Dark blue thumb
-          />*/}
+      <Slider
+        style={{ width: '100%', height: 40 }}
+        minimumValue={0}
+        maximumValue={1}
+        step={0.01}
+        value={framesPerSecond}
+        onValueChange={setFramesPerSecond}
+        minimumTrackTintColor="#3b82f6"
+        maximumTrackTintColor="#d1d5db"
+        thumbTintColor="#111827"
+      />
           <Text style={movieSpeedStyles.fpsValue}>{framesPerSecond}</Text>
         </View>
       </View>

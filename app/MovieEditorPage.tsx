@@ -107,6 +107,10 @@ const uploadFrames = async (all_frames: Frame[]) => {
     };
   }, [])
 );
+  const changeframespeed = () => {
+    navigation.navigate("MovieSpeedPage");
+
+  }
 
 
   return (
@@ -165,7 +169,10 @@ const uploadFrames = async (all_frames: Frame[]) => {
           <TouchableOpacity style={movieEditorStyles.editorToolbarButton}>
             <AntDesign name="plus" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={movieEditorStyles.editorToolbarButton}>
+          <TouchableOpacity onPress={() =>{changeframespeed()}} style={movieEditorStyles.editorToolbarButton}>
+            <Ionicons name="speedometer-outline" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() =>{}} style={movieEditorStyles.editorToolbarButton}>
             <Entypo name="controller-play" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() =>{convertImageToVideo()}} style={movieEditorStyles.editorToolbarButton}>
